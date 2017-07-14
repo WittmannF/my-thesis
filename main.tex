@@ -1,0 +1,91 @@
+%%%%%%%%%%%%%%%%%%%%%%% TODO  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% - Todas as páginas deverão ser contadas. Porém, as folhas pré-textuais (primeira até o sumário) não são numeradas. A numeração (contada continuamente) deverá figurar a partrir da Introdução até a última folha do trabalho, em algarismos arábico (resolvido utilizando set counter)
+% - Colocar número de página no canto superior direito da página
+% - Remover a página em branco depois do sumário (resolvdo quando mudei a classe de book para report)
+% 
+%
+% Comentários de Rider:
+% - Na introducao, expandir trabalhos prévios. Vender ideia e sua importância. 10 páginas de introdução. 
+%
+
+
+\documentclass[12pt]{report}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% Packages %%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\graphicspath{{imgs/}{imgs/apx/}{imgs/ch1/}{imgs/ch3/}}
+\usepackage[tc]{titlepic}
+\usepackage{algorithm2e}
+\usepackage[T1]{fontenc}
+\usepackage{pdfpages}
+\usepackage[backend=biber, sorting=none]{biblatex}
+\addbibresource{references.bib}
+
+\usepackage[a4paper, left=30mm, right=20mm, top=30mm, bottom=20mm]{geometry}
+
+\usepackage{times}
+
+\usepackage{amsmath}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%% Personal Data %%%%%%%%%%%%%%%%%%%%%
+\newcommand{\autor}{FERNANDO MARCOS WITTMANN}
+
+\newcommand{\titulo}{NON-INTRUSIVE LOAD MONITORING ALGORITHM USING MIXED-INTEGER LINEAR PROGRAMMING}
+
+\newcommand{\titulobr}{ALGORITMO DE MONITORAMENTO NÃO INTRUSIVO UTILIZANDO PROGRAMAÇÃO LINEAR INTEIRA MISTA}
+
+\newcommand{\orientador}{Marcos J. Rider F.}
+
+\newcommand{\ano}{2017}
+
+\renewcommand{\contentsname}{Summary}
+
+%%%%%%%%%%%%%%%%%%%%%%%% Thesis Text %%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+    %\pagenumbering{roman} 
+    \pagenumbering{gobble}
+    
+    \input{other/capa}
+    
+    \input{other/folha-de-rosto}
+    
+    
+    % Deve estar no verso da página de rosto. Quando se tratar de dissertações financiadas por agências de fomentos, os beneficiados deverão fazer referência ao apoio financeiro recebido e inserir, acima da ficha catalografica, além do nome da ag~encia, o número do processo pelo qual recebeu o Auxílio. 
+    \includepdf{other/ficha-catalografica}
+    
+    % Folha de aprovação deve dar visibilidade à comissão examinadora com as respectivas assinaturas;
+    \includepdf{other/folha-de-aprovacao}
+    
+    \input{other/dedicatoria}
+    
+    \input{other/agradecimentos}
+    
+    \input{other/quote}
+    
+    \input{other/abstract}
+    
+    \tableofcontents
+    
+    \input{chapters/ch1_introduction}
+    
+    \input{chapters/ch2_fundamentals}
+    
+    \input{chapters/ch3_math-model}
+    
+    \input{chapters/ch4_extracting-features}
+    
+    \input{chapters/ch5_exp-setup}
+    
+    \input{chapters/ch6_conclusion}
+    
+    % Ordem final: Referencias, apendices e anexos
+    \printbibliography
+    
+    \input{chapters/z_appendix}
+
+\end{document}

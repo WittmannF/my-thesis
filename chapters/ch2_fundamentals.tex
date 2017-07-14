@@ -1,0 +1,119 @@
+\chapter{Fundamentals}
+This chapter presents the fundamental concepts 
+
+
+\section{Optimization}
+Mathematical optimization (also known as mathematical programming) is the process of minimization or maximization of an objective function of many variables, subject to constraints on the variables \cite{ampl}. The equation \eqref{opt_example} shows an example of optimization problem.
+
+\begin{equation} \label{opt_example}
+    \max_{x_i} \quad \sum_{i\ = 1}^{n} v_i\ x_i
+\end{equation}
+
+subject to 
+
+\begin{equation}
+    \sum_{i\ = 1}^{n} w_i\ x_i \ \leq \ W \quad \forall \ x \in \{0,1\}
+\end{equation}
+
+Equation \eqref{opt_example} is a classic \textit{integer programming} problem also known as the knapsack problem. Given a set of $i = 1..n$ different items, where each item has a specific value $v_i$, the main goal is to maximize the overall profit given that each item has a weight $w_i$ and it is not possible to overcome the maximum limit $W$. The variable of this problem $x_i$ is an integer binary variable, hence, the name of this type of problem. The major subfields for mathematical optimization are:
+\begin{itemize}
+    \item \textbf{Linear Programming:} "The variables of the objective function are continuous in the mathematical sense, with no gaps between real values" \cite{cplex}. I.e. "all the costs, requirements and other quantities of interest are terms strictly proportional to the levels of activities, or sums of such terms" \cite{ampl}. 
+    \item \textbf{Nonlinear Programming:} "studies the general case in which the objective function or the constraints or both contain nonlinear parts. This may or may not be a convex program. In general, whether the program is convex affects the difficulty of solving it." wiki
+    \item \textbf{Integer Programming:} "studies linear programs in which some or all variables are constrained to take on integer values. This is not convex, and in general much more difficult than regular linear programming." wiki
+    \item \textbf{Quadratic Programming:} "Allows the objective function to have quadratic terms, while the feasible set must be specified with linear equalities and inequalities. For specific forms of the quadratic term, this is a type of convex programming."
+\end{itemize}
+
+"If the problem contains an objective function with no quadratic term (a linear objective), then the problem is termed as Mixed Integer Linear Program (MILP)." \cite{cplex}. 
+
+
+\section{NILM as an Optimization Problem}
+
+The energy disaggregation problem can be formulated assuming that the measured variable (current or power) in the input of the house is given by $P(t)$, for each time $t$. As shown in \eqref{Ps}, the objective of the NILM would be to decode $P(t)$ in power states $P_i(t)$, $\forall \ i \in \{1,...,n\}$. Where $n$ is the total number of power states for all appliances. 
+
+\begin{equation} \label{Ps}
+    P(t) = P_1(t) + ... + P_n(t)
+\end{equation}
+ 
+Each appliance is associated with one or more power states. For example, an ON/OFF appliance (e.g., a toaster) could be represented by a single state, while a washing machine could be represented by multiple states, since its power consumption changes over time. 
+Eventually, the classical NILM problem can be rewritten as the optimization problem shown in the equation \eqref{classic}. Where $x_i(t) \in \left\{ 0 , 1 \right\}$ is a boolean variable that decides the status of the power state $i$, at time $t$ \cite{hart}.
+
+\begin{equation} \label{classic}
+    \min_{x} \quad \left| P(t) - \sum_{i=1}^{n} x_i(t)\ P_i \right |
+\end{equation}
+
+Equation \eqref{classic} aims at finding the combination of power states $P_i$ that best approximate the measure $P(t)$. When other types of measurements are also available (such as reactive power, harmonics or distortion factor), the classical problem in \eqref{classic} may include these measurements in a vector. Equation \eqref{classic2} also includes the reactive power measurement $Q(t)$ and reactive power states $Q_i$. 
+
+\begin{equation} \label{classic2}
+    \min_{x} \quad \left|\ \begin{bmatrix}
+         P(t) \\
+         Q(t) \\
+        \end{bmatrix} - \sum_{i=1}^{n} x_i(t)\ \begin{bmatrix}
+         P_i \\
+         Q_i \\
+        \end{bmatrix} \ \right|
+\end{equation}
+
+While the author x mentions that this approach is not viable due to the explosion of features, i.e., high computational time, the author considered a scenario in which the input table contains over x inputs. As described later, this work does not requires a big number of features and it runs in a fair computational time. In addition, there are constraints for atenuating the computational influence. 
+
+\iffalse
+Responder à estas críticas:
+
+
+- Optimisation is computationally intractable
+George Hart, one of the early pioneers of disaggregation research, points out that the optimisation
+problem specified in equation 7.2 is an NP-complete “weighted set” problem and that
+a precise solution is only achievable by enumerating every possible state (G. W. Hart 1992).
+This is computationally impractical because n appliances, each of which can occupy any one
+of s states, can be configured in s
+n
+combinations so the computational complexity blows up
+exponentially as O(s
+n
+). Say we have thirty appliances, each of which can be in one of four
+states, and we have a month of data sampled once every five seconds. That is approximately
+1024 operations1
+, which would take 5×1010 seconds (∼ 1 700 years) on NVIDIA’s top-of-the-line
+GPU at the time of writing2
+.
+Whilst the optimisation problem specified in equation 7.2 is a succinct description of the problem,
+it fails to capture many of the challenges present in practical systems. These problems
+include (but are not limited to):
+1. We are unlikely to know the power consumption of every appliance.
+2. We are unlikely to know the total number of appliances.
+3. Many appliances do not draw tidy, discrete levels of power; instead their power consumption
+may spike, undershoot, oscillate or ramp over time.
+4. A smart meter may sample less frequently than is required to faithfully capture rapid
+changes. In other words, the meter may sample at sub-Nyquist rates. This results in
+considerable distortion of the digital recording.
+5. Many appliances (like washing machines and tumble driers) have multiple internal states.
+Transitions between these states may be non-deterministic. Each run of the appliance
+may produce a different waveform (see Figure 7.1).
+6. Different appliances of the same class produce different waveforms (which is a problem if
+we want to build a common database of appliances for multiple users).
+7. Some appliances generate identical waveforms (e.g. a kettle and the water heater in a
+washing machine generate very similar waveforms).
+8. Appliance signatures overlap and occlude each other in the aggregate smart meter signal.
+9. The mains voltage in the UK is nominally 230 volts but can range from 216 volts to
+253 volts which is -6%, +10% of the nominal 230 volt supply voltage3
+. Assuming a linear
+load, we can expect the power consumption to vary by -12%, +20%. Home energy meters
+do not measure voltage, but utility-installed smart meters do.
+10. Ultimately users care more about how much energy each appliance uses rather than when
+each appliance is on. Estimating energy consumption for a simple two-state appliance
+like a toaster is trivial if we know how long the appliance has run for. But estimating
+power consumption of complex appliances like washing machines is less trivial.
+These challenges mean that conventional optimisation approaches such as combinatorial optimisation
+are not feasible for anything other than toy scenarios.
+
+
+\fi
+
+
+
+\section{NILM as a Pattern Recognition Problem}
+One of the most popular approaches for solving the NILM problem is pattern recognition. The technique is fundamentally based on finding pairs of edges in the signal with opposite directions. The figure x describes the first algorithm, proposed by Hart in x. 
+
+
+Most of the successive works were focused on alternative edge detection strategies and increasing the number of features to be used besides the active and reactive power from the original work. Those alternative features includes harmonics, time of operation, hour of activation, etc. There are also features extracted from high frequency data such as the senoidal signal. However, it is worth noting that many of those features are not available in smart meters. Hence, NILM strategies should also be suitable to cases with limited data. 
+
+\section{Summary}

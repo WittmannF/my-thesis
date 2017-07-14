@@ -1,0 +1,31 @@
+% – Implementação, Resultados, Arquivos diversos, etc
+
+
+\appendix
+\chapter{Mathematical Model of the loads}
+
+This section proposes an algorithm to create the load signatures. This algoritm extract the most relevant power states of the load. First let’s start with an example. We begin with the following question: how do we create a mathematical model for the load of the figure 1?
+
+
+
+First, let’s take a look on the histogram:
+
+This histogram tells us that there are 3 main power states when the DishWasher is on. Hence, we can build a model for this load by using a clustering algorithm. 
+
+
+
+The next figure shows the model created by using a median clustering algorithm:
+
+Then, the atributes state, mindisc and ant are loaded to the model. The next figures present the other models that are considered for the system 2. 
+
+
+
+
+
+
+the following figure shows the model of the fridge with 4 states
+
+
+\chapter{Implementation}
+
+%Available at https://github.com/WittmannF/NILM_LP

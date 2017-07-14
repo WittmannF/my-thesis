@@ -1,0 +1,13 @@
+\chapter{Extracting Load Features}
+The math model presented in the Chapter 3 requires as input the power level, the minimum running time and sequence of states for each load. This chapter presents the methodology that was applied for extracting these features in both a supervised setting and an usupervised setting. As a difference, in the supervised setting, these features are extracted from the measurements of each appliance alone. In the unsupervised setting, those features are extracted from snippets from the total power signal. More details are presented in each subsection. 
+
+
+\section{Supervised Setting}
+
+\section{Unsupervised Setting}
+
+
+\section{Summary}
+
+Ideas:
+- "Using the total power signal, we extract all snippets of data where consumption increase over some th then eventually returns to its original level; some of these are indecpherable due to the aggregation, but especially for short device durations there are occasional snipptes of individual devices. We model all these snippets as empirical HMM (means equal to the observed output and transition probabilities set based upon the amount of time spent at each power level) and looked at all pairwise probabilities between them (the probability of one snippet generating another); using the k-nearest-neighbor graph induced by these probabilities, we ran spectral clustering to group devices together. This resulted into nine prototypical motifs, " - Kolter
