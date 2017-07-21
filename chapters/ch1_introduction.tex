@@ -26,19 +26,17 @@ How much energy did my fridge spend in the last month? While simple, a typical h
 
 \section{Description of the Problem}
 
-The keyword NILM\footnote{Nowadays, this keyword have also extended to equivalents NIALM (non-intrusive appliance load monitoring) and NALM (nonintrusive appliance load monitoring). Another commonly and equivalent keyword is load disaggregation.} was used for the first time in 1985 by George W. Hart in a technical report \cite{hart85} and later published by the same author in 1992 \cite{hart}. The paper proposes a full methodology, from types of loads, load signatures, algorithm and physical implementation. The algorithm is based in a the context of a communication model where each appliance is a 'transmitter' and the algorithm is modeled as a 'receiver'. The author then proposes a 'decoding'  algorithm. More details of the algorithm are presented in the Figure \ref{1hartalg}. 
+The keyword NILM\footnote{Nowadays, this keyword have also extended to equivalents NIALM (non-intrusive appliance load monitoring) and NALM (nonintrusive appliance load monitoring). Another commonly and equivalent keyword is load disaggregation.} was introduced in 1985 by George W. Hart in a technical report \cite{hart85} and later published in 1992 by the same author \cite{hart}. The paper proposes a full methodology, from types of loads, load signatures, algorithm and physical implementation. The algorithm is based in the context of a communication model where each appliance is a 'transmitter' and the algorithm is modeled as a 'receiver'. The author then proposes a 'decoding'  algorithm. 
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.35\textwidth]{1hartalg}
-    \caption{First algorithm, proposed by \cite{hart}}
-    \label{1hartalg}
-\end{figure}
+The algorithm is based on event (edge) detection. Then, it groups these events into clusters of active and reactive power. The next step is to construct appliance models. Next, single state appliances are identified by clustering pair of events. As advantage, this algorithm works even in an unsupervised way, where it clusters similar events and then tracks the following events based on their proximity. Another advantage is that this algorithm works well even in the presence of unknown appliances. As disadvantage, since this method is solely based on event detection, it might miss some event due to a case where multiple events occur. Another common problem is that in case a off and the immediately following on event are both missed. The algorithm connects the previous ON with the subsequent ON event. 
 
-The algorithm is based on event (edge) detection. Then, it groups these events into clusters of active and reactive power. 
-The next step is to construct appliance models, either ON OFF or FSM. The ON OFF is done by clustering pair of events. As advantage, this algorithm works even in an unsupervised way, where it clusters similar events and then tracks the following events based on their proximity. Another advantage is that this algorithm works well even in the presence of unknown appliances. As disadvantage, since this method is solely based on event detection, it might miss some event due to a case where multiple events occur. Another common problem is that in case a off and the immediately following on event are both missed. THe algorithm connects the previous ON with the subsequent ON event. 
+However, before introducing the pattern recognition method, Hart describes the NILM problem as a combinatorial optimization (CO) problem. In the CO formulation, the disaggregation is obtained by combining the multiple possible states that minimizes the full measurement for each time instant. For each time instant, we seek to minimize the combination of power states and the final measurement. Here, it is assumed that all the possible operating states are previously known. Hart points three main issues to discourage the usage of this formulation. The first issue is that we have a NP-complete “weighted set” problem, hence it has a high computational cost and it increases with the addition of more states of devices or measurements. The second problem - mentioned as the 'fundamental problem' - is that the complete set of operating states are never known. If the model is used in the presence of unknown appliances, it would attempt to describe their behavior as a combination of other known appliances. Finally, the third problem - which will be referred as the multiple switching (MS) problem - is that a small change in the measurement might be translated in a big change of the combination of loads. Despite various NILM approaches proposed in the literature, the next section shows that very few have attempted in dealing with those problems. As shown in later sections, this work is going to explore the potential of expanding the CO formulations in ways to handle the previous problems. We are especially concerned in solving the MS problem. New constraints could be proposed for this purpose. In addition, methods can be explored to decrease the running time. 
 
-However, before introducing the pattern recognition method, Hart describes the NILM problem as a combinatorial optimization (CO) problem, formulated in the following way: let's assume that the measured value (current/power) in the input of the house is $P(t)$ at time $t$. The goal of the algorithm would be to decode $P(t)$ in many components $P_i(t) \ \forall \ i \in 1..n$, where $n$ is the number of power components and each one would be be associated to one specific state $i$. Hence, we have that
+
+\iffalse
+
+
+, formulated in the following way: let's assume that the measured value (current/power) in the input of the house is $P(t)$ at time $t$. The goal of the algorithm would be to decode $P(t)$ in many components $P_i(t) \ \forall \ i \in 1..n$, where $n$ is the number of power components and each one would be be associated to one specific state $i$. Hence, we have that
 
 $$P(t) = P_1(t) + ... + P_n(t)$$
  
@@ -50,13 +48,15 @@ The CO formulation can be written by using the equation \ref{co} for each time r
 
 where $x_i(t)$ is a boolean that describes the state of the power component $i$ at time $t$. As noted in the reference, this problem although mathematically attractive, is a NP-complete “weighted set” problem, hence it has a high computational cost. In addition, it's complexity increases with the addition of more states of devices or measurements.
 Hart's paper points to a few difficulties in estimating $x_i(t)$. The first - mentioned as the 'fundamental problem' - is that the complete set of $P_i$ are never known. As disadvantage, if the model is used in the presence of unknown appliances, it would attempt to describe their behavior as a combination of other known appliances. 
-The second difficulty is that a small change in $P(t)$ might be translated in a big change of the combination of loads. Despite various NILM approaches proposed in the literature, the literature review in the next section shows that very few have attempted expanding the CO model. While the two difficulties are quite challenging in both accuracy and running time, there is still room for improvements. 
+The second difficulty is that a small change in $P(t)$ might be translated in a big change of the combination of loads. Despite various NILM approaches proposed in the literature, the literature review in the next section shows that very few have attempted in dealing with those problems. While the two difficulties are quite challenging in both accuracy and running time, there is still room for improvements. 
+
+\fi
 
 \section{Previous work}
 
-Figure \ref{1npub} shows an exponential growth in the last few years of publications citing the first NILM work\footnote{Data acquired from Google Scholar. Code for available at \url{https://github.com/WittmannF/nilm-publications}}.
+Figure \ref{1npub} shows the number of publications in the NILM field per year over the last 25 years. Those NILM publications are inferred using publications citing the first NILM work published by Hart in 1992\footnote{Inspired from \cite{1npub}. Data acquired from Google Scholar. Code available in \url{https://github.com/WittmannF/nilm-publications}}. An exponential growth of NILM publications can be observed since 2010.
 
-\begin{figure}[ht]
+\begin{figure}[bt]
     \centering
     \includegraphics[width=0.8\textwidth]{npub}
     \caption{Number of publications with reference to Hart's original work since its publication}
@@ -65,8 +65,19 @@ Figure \ref{1npub} shows an exponential growth in the last few years of publicat
 
 
 %The second problem led the author to propose the switch continuity principle (SCP), which states: \textit{``In a small time interval, we expect only a small number of appliances to change state in a typical load''}. However, as shown in recent works \cite{makonin2016}, SCP is not always reliable. Hence, a better strategy to deal with MS is necessary.
+A further analysis in the publication's titles since 2010 did not reveal any trending strategy. Figure \ref{wordle} shows the most frequent words that were found in those titles. Some obvious keywords such as 'nonintrusive', 'load', 'monitoring', 'energy' and 'disaggregation' were removed. As main insights, the NILM research field seems to be mainly focused in residential applications and buiding. Therefore, few attention has been paid to industrial applications. In addition, it seems that privacy is increasingly a concern in the field. Another analysis using only the split of the title after the keyword 'based on' and 'using' was also considered. However, this analysis did not reveal too much insight of key techniques as well. 
 
-Despite various NILM approaches proposed in the literature \cite{mostafa}, very few have attempted to solve these two problems for the CO model. Zeifman and Roth in \cite{zeifman} divide the types of algorithms in two categories: pattern recognition (one-to-one matching) and optimization (multiple matching).
+\begin{figure}[bt]
+    \centering
+    \includegraphics[width=0.8\textwidth]{wordle}
+    \caption{Trending words in NILM publications since 2010}
+    \label{wordle}
+\end{figure}
+
+- There are many ways of categorizing the NILM approaches. 
+- For example they can be categorized into either supervised or unsupervised approaches. In the NILM supervised approach, it is assumed the access to the measurements of each single appliance for training a disaggregation algorithm. In the NILM unsupervised approach, 
+- Zeifman and Roth in \cite{zeifman} divide the types of algorithms in two categories: pattern recognition (one-to-one matching) and optimization (multiple matching).
+- Nowadays, Zeifman's categorization can be expanded into either event based algorithms or eventless algorithms. 
 
 The pattern recognition matching is based on the detection and classification of events. Since the pattern recognition strategies are based on one-to-one matching, the efforts of these strategies are mainly focused on feature extraction. These events are then classified by well-established classifiers, such as k-nearest neighbor \cite{Figueiredo2011}, \cite{berges2009, Froehlich2010}, fuzzy sets \cite{lin2011, ducange2014}, decision trees \cite{Nguyen2015, gillis2016}, support vector machines \cite{duarte2012, zoha2012}, neural networks \cite{zhou2016, bian2016} and deep learning \cite{mauch2016, jack2015}. As noted by \cite{zeifman}, the advantages of pattern recognition methods are that they provide better results in the presence of unknown loads. However, those methods are sensible to the detection of false edges coming from noise or non-linear loads.
 
