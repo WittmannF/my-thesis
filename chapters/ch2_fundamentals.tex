@@ -31,15 +31,16 @@ subject to
     \sum_{i\ = 1}^{n} w_i\ x_i \ \leq \ W \quad \forall \ x \in \{0,1\}
 \end{equation}
 
-Equation \eqref{opt_example} is a classic \textit{integer programming} problem also known as the knapsack problem. Given a set of $i = 1..n$ different items, where each item has a specific value $v_i$, the main goal is to maximize the overall profit given that each item has a weight $w_i$ and it is not possible to overcome the maximum limit $W$. The variable of this problem $x_i$ is an integer binary variable, hence, the name of this type of problem. The major subfields for mathematical optimization are:
+Equation \eqref{opt_example} is a classic \textit{integer programming} problem also known as the knapsack problem. Given a set of $i = 1..n$ different items, where each item has a specific value $v_i$, the main goal is to maximize the overall profit given that each item has a weight $w_i$ and it is not possible to overcome the maximum limit $W$. The variable of this problem $x_i$ is an integer binary variable, hence, the name of this type of problem. Some of the major subfields for mathematical optimization are \cite{cplex, ampl}:
 \begin{itemize}
-    \item \textbf{Linear Programming:} "The variables of the objective function are continuous in the mathematical sense, with no gaps between real values" \cite{cplex}. I.e. "all the costs, requirements and other quantities of interest are terms strictly proportional to the levels of activities, or sums of such terms" \cite{ampl}. 
-    \item \textbf{Nonlinear Programming:} "studies the general case in which the objective function or the constraints or both contain nonlinear parts. This may or may not be a convex program. In general, whether the program is convex affects the difficulty of solving it." wiki
-    \item \textbf{Integer Programming:} "studies linear programs in which some or all variables are constrained to take on integer values. This is not convex, and in general much more difficult than regular linear programming." wiki
-    \item \textbf{Quadratic Programming:} "Allows the objective function to have quadratic terms, while the feasible set must be specified with linear equalities and inequalities. For specific forms of the quadratic term, this is a type of convex programming."
+    \item \textbf{Linear Programming:} In this type of problem, the variables in the optimization function and in the constraints are linear. In the constrains, those variables are always assumed to be a linear combination of other variables. In the optimization funciton, the variables are always first order equations.  
+    \item \textbf{Nonlinear Programming:} The objective function and/or the constraints contain nonlinear variables. A nonlinear variable could be a convex problem, for example, minimize the square of an error between. The product of two variables is also considered a non linear formulation. 
+    \item \textbf{Integer Programming:} Linear problem in which all the variables are assumed to take an integer value. This value could be either a binary value or an natural number. 
+    \item \textbf{Quadratic Programming:} Allow quadratic terms in the objective function. Most times, this is a convex problem.
+    \item \textbf{Mixed-Integer Linear Programming:} Integer programming problem which contains a linear objective function (without quadratic terms).
 \end{itemize}
 
-"If the problem contains an objective function with no quadratic term (a linear objective), then the problem is termed as Mixed Integer Linear Program (MILP)." \cite{cplex}. 
+\cite{cplex}. 
 
 \subsection{Optimization Software}
 ampl
@@ -54,7 +55,7 @@ Boyle in cite{boyle} demonstrates how to linearize the \textit{Chebyshev approxi
     \min_{x} \max_{i=1,...,k} \quad \left| a_i^T\ x - b_i \right |
 \end{equation}
 
-\section{NILM as an Optimization Problem}
+\section{NILM as a Combinatorial Optimization Problem}
 
 The energy disaggregation problem can be formulated assuming that the measured variable (current or power) in the input of the house is given by $P(t)$, for each time $t$. As shown in \eqref{Ps}, the objective of the NILM would be to decode $P(t)$ in power states $P_i(t)$, $\forall \ i \in \{1,...,n\}$. Where $n$ is the total number of power states for all appliances. 
 

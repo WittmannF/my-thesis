@@ -4,6 +4,75 @@ The math model presented in the Chapter 3 requires as input the power level, the
 
 \section{Supervised Setting}
 
+This section proposes an algorithm to create the load signatures. This algoritm extract the most relevant power states of the load. First let’s start with an example. We begin with the following question: how do we create a mathematical model for the load of the figure 1?
+
+\begin{figure}[tb]
+    \centering
+    \includegraphics[width=1\columnwidth ]{1.png}
+    \caption{Power measurement of DishWasher}
+    \label{ch31}
+\end{figure}
+
+First, let’s take a look on the histogram:
+\begin{figure}[tb]
+    \centering
+    \includegraphics[width=1\columnwidth ]{2.png}
+    \caption{Histogram of DishWasher}
+    \label{ch32}
+\end{figure}
+
+
+This histogram tells us that there are 3 main power states when the DishWasher is on. Hence, we can build a model for this load by using a clustering algorithm. 
+
+\begin{figure}[tb]
+    \centering
+    \includegraphics[width=1\columnwidth ]{3.png}
+    \caption{Cluster algorithm}
+    \label{ch33}
+\end{figure}
+
+The next figure shows the model created by using a median clustering algorithm:
+
+\begin{figure}[tb]
+    \centering
+    \includegraphics[width=1\columnwidth ]{4.png}
+    \caption{Model based on clusters from the histogram}
+    \label{ch34}
+\end{figure}
+
+Then, the atributes state, mindisc and ant are loaded to the model. The next figures present the other models that are considered for the system 2. 
+\begin{figure}[tb]
+    \centering
+    \includegraphics[width=1\columnwidth ]{5.png}
+    \caption{Model based on clusters from the histogram}
+    \label{ch35}
+\end{figure}
+
+
+\begin{figure}[tb]
+    \centering
+    \includegraphics[width=1\columnwidth ]{6.png}
+    \caption{Model based on clusters from the histogram}
+    \label{ch36}
+\end{figure}
+
+
+\begin{figure}[tb]
+    \centering
+    \includegraphics[width=1\columnwidth ]{7.png}
+    \caption{Model based on clusters from the histogram}
+    \label{ch37}
+\end{figure}
+
+the following figure shows the model of the fridge with 4 states
+
+\begin{figure}[tb]
+    \centering
+    \includegraphics[width=1\columnwidth ]{8.png}
+    \caption{Model based on clusters from the histogram}
+    \label{ch37}
+\end{figure}
+
 \section{Unsupervised Setting}
 
 

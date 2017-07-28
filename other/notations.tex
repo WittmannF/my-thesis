@@ -1,0 +1,77 @@
+\newpage
+
+\begin{center}
+  \large{\textbf{LIST OF SIMBOLS}}
+\end{center}
+
+
+\noindent \emph{\textbf{Sets}}:
+
+
+\vspace{4pt}
+
+\begin{description}
+    \item [{$D$}]           Set of appliances
+    \item [{$S$}]           Set of indexes associated to power states
+    \item [{$T$}]           Set of discrete time periods
+    \item [{$\tilde{T}$}]   Subset of discrete time periods within a window, where $\tilde{T} \subseteq T$
+
+\end{description}
+
+\vspace{4pt}
+
+\noindent \emph{\textbf{Indexes}}:
+
+\vspace{4pt}
+
+\begin{description}
+    \item [{$i$}]   Index of each power state, where $i \in S$
+    \item [{$j$}]   Index of each appliance, where $j \in D$
+    \item [{$t$}]   Index of each time period, where $t \in T$
+
+\end{description}
+
+\vspace{4pt}
+
+\noindent \emph{\textbf{Parameters}}:
+
+\vspace{4pt}
+
+\begin{description}
+
+    \item [{$D_i$}]     Appliance associated with the state $i$
+    \item [{$G_i$}]     Number of time periods in which the state $i$ must be activated
+    \item [{$m$}]       Number of time periods in a window
+    \item [{$MD_i$}]    Minimum number of time periods in which the state $i$ must be ON
+    \item [{$n$}]       Total number of power states in $S$
+    \item [{$NP_i$}]    Number of time periods in which $i$ has been activated in the previous window
+    \item [{$P_i$}]     Active power state assigned to the index $i$
+    \item [{$P(t)$}]    Active power true measurement at time $t$
+    \item [{$\rm{prev}_\textit{i}$}]Previous state of $i$ (0 if none)
+    \item [{$Q_i$}]     Reactive power state assigned to the index $i$
+    \item [{$Q(t)$}]    Reactive power true measurement at time $t$
+    \item [{$T_0$}]     Initial time period of each new window
+    \item [{$T_f$}]     Last time period of each new window in $\tilde{T}$
+    \item [{$T_{\text{end}}$}] Last time period of $T$ 
+%    \item [{$TH$}]      Threshold of minimum power to be identified. 
+    \item [{$X_i$}]     Final status of the state $i$ within the current window. $X_i=1$ if the state $i$ is ON at the end of the window; otherwise, $X_i=0$.
+
+    \item [{$y_j(t)$}]     True power measurement of a given appliance $j$ at time $t$.
+    \item [{$\hat{y}_j(t)$}]     Predicted power measurement of a given appliance $j$ at time $t$.
+
+\end{description}
+
+\vspace{4pt}
+
+\noindent \emph{\textbf{Variables}}:
+
+\vspace{4pt}
+
+\begin{description}
+    \item [{$dw_i(t)$}]         Binary variable that indicates if state $i \in S$ was turned off at time $t$
+    \item [{$up_i(t)$}]         Binary variable that indicates if state $i \in S$ was turned on at time $t$ 
+    \item [{$x_{i}(t)$}]        Binary variable that represents the status of state $i$ at time $t$
+    \item [{$\delta_P(t)$}]     Difference between the measured value $P(t)$ and the combination of loads at time $t$
+    \item [{$\delta_Q(t)$}]     Difference between the measured value $Q(t)$ and the combination of loads at time $t$
+    
+\end{description}
