@@ -1,22 +1,16 @@
 \chapter{Fundamentals}
-This chapter presents the fundamental concepts 
+[MOTIVACAO] 
+- Before introducing the matemathical model, some of the core concepts are going to be presented in this chapter. 
+- This chapter presents the basis concepts that will fundament the next chapters
+- This chapter presents the core concepts what are necessary for understanding the rest of the work
+- This chapter presents the background work necessary for proceding with the next few chapters. 
 
+
+\iffalse
 
 \section{Mathematical Optimization}
 
-\iffalse
-However, before introducing the pattern recognition method, Hart describes the NILM problem as a combinatorial optimization (CO) problem, formulated in the following way: let's assume that the measured value (current/power) in the input of the house is $P(t)$ at time $t$. The goal of the algorithm would be to decode $P(t)$ in many components $P_i(t) \ \forall \ i \in 1..n$, where $n$ is the number of power components and each one would be be associated to one specific state $i$. Hence, we have that
 
-$$P(t) = P_1(t) + ... + P_n(t)$$
- 
-The CO formulation can be written by using the equation \ref{co} for each time reading $t$ 
-
-\begin{equation} \label{co}
-    \min_{x} \quad \left|P(t) - \sum_{i=1}^{n} x_i\ P_i \right|
-\end{equation}
-
-where $x_i(t)$ is a boolean that describes the state of the power component $i$ at time $t$. As noted in the reference, this problem although mathematically attractive, is a NP-complete “weighted set” problem, hence it has a high computational cost. In addition, it's complexity increases with the addition of more states of devices or measurements.
-\fi
 
 
 Mathematical optimization (also known as mathematical programming) is the process of minimization or maximization of an objective function of many variables, subject to constraints on the variables \cite{ampl}. The equation \eqref{opt_example} shows an example of optimization problem.
@@ -42,12 +36,6 @@ Equation \eqref{opt_example} is a classic \textit{integer programming} problem a
 
 \cite{cplex}. 
 
-\subsection{Optimization Software}
-ampl
-gams
-knitro
-cplex
-
 \subsection{Linearization of an Absolute Objective Function}
 Boyle in cite{boyle} demonstrates how to linearize the \textit{Chebyshev approximation problem} defined as:
 
@@ -55,6 +43,7 @@ Boyle in cite{boyle} demonstrates how to linearize the \textit{Chebyshev approxi
     \min_{x} \max_{i=1,...,k} \quad \left| a_i^T\ x - b_i \right |
 \end{equation}
 
+\fi
 \section{NILM as a Combinatorial Optimization Problem}
 
 The energy disaggregation problem can be formulated assuming that the measured variable (current or power) in the input of the house is given by $P(t)$, for each time $t$. As shown in \eqref{Ps}, the objective of the NILM would be to decode $P(t)$ in power states $P_i(t)$, $\forall \ i \in \{1,...,n\}$. Where $n$ is the total number of power states for all appliances. 
