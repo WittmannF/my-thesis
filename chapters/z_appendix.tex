@@ -2,30 +2,75 @@
 
 
 \appendix
-\chapter{Mathematical Model of the loads}
+\chapter{Full Proposed Mathematical Model}
 
-This section proposes an algorithm to create the load signatures. This algoritm extract the most relevant power states of the load. First let’s start with an example. We begin with the following question: how do we create a mathematical model for the load of the figure 1?
+The full proposed model for a window based case is given by the Algorithm \ref{full_model}. As it will be illustrated in the next section, this kind of optimization problem can be solved with the help of standard convex mathematical optimization software. 
 
+\begin{algorithm}[htb]\label{full_model}
+\SetAlgoLined
+ \Repeat{$T_0$ > $T_f$}{
 
+let  $\tilde{T} = \left\{T_{0}, \cdots, T_{0}+m \right\}$
 
-First, let’s take a look on the histogram:
+solve
+$$\min_{x_i(t)} \quad \sum_{t\ \in\ \tilde{T}} \delta_P(t) + \delta_Q(t)$$
 
-This histogram tells us that there are 3 main power states when the DishWasher is on. Hence, we can build a model for this load by using a clustering algorithm. 
+s. t. 
+%\begin{center}
 
+\begin{equation}
+P(t) - \sum_{i\ = 1}^{n} x_i(t)\ P_i \ \leq \ \delta_P(t)
+\end{equation}
 
+\begin{equation}
+P(t) - \sum_{i = 1}^{n} x_i(t)\ P_i \ \geq \ -\delta_P(t)
+\end{equation}
 
-The next figure shows the model created by using a median clustering algorithm:
+\begin{equation}
+Q(t) - \sum_{i\ = 1}^{n} x_i(t)\ Q_i \ \leq \ \delta_Q(t)
+\end{equation}
 
-Then, the atributes state, mindisc and ant are loaded to the model. The next figures present the other models that are considered for the system 2. 
+\begin{equation}
+Q(t) - \sum_{i = 1}^{n} x_i(t)\ Q_i \ \geq \ -\delta_Q(t)
+\end{equation}
 
+\begin{equation}
+x_i(t) = 0 \quad \forall t \in \tilde{T}, i \in S \ | \ P(t) \leq TH
+\end{equation}
 
+\begin{equation}
+ x_i(t) - x_i(t-1) = up_i(t) - dw_i(t) \quad \forall i \in S, t > T_0
+\end{equation}
 
+\begin{equation}
+ x_i(T_0) - X_i = up_i(t) - dw_i(t) \quad \forall i \in S, t = T_0
+\end{equation}
 
+\begin{equation}
+up_i(t) + dw_i(t) \leq 1 \quad \forall i \in S, t \in \tilde{T}
+\end{equation}
 
+\begin{equation}
+    up_i(t) = dw_{\text{prev}_i}(t) \quad \forall i \in S, t \in \tilde{T} \ | \ \text{prev}_i>0
+\end{equation}
 
-the following figure shows the model of the fridge with 4 states
+\begin{equation}
+    \sum_{k\ =\ T_0}^{G_i} \left[ 1 - x_i(k) \right] = 0 \quad \forall i \in S
+\end{equation}
 
+\begin{multline}
+ \qquad \qquad \qquad \qquad    \sum_{k\ =\ t}^{t+MD_i-1} x_i(k) \geq MD_i \left[ x_i(t) - x_i(t-1) \right] \\
+    \forall i \in S, t \in G_i + T_0 \hdots T_f - {MD}_i + 1
+\end{multline}
 
-\chapter{Implementation}
+\begin{multline}
+ \qquad \qquad \qquad \qquad \sum_{k\ =\ t}^{T_f} \left\{ x_i(k) - \left[ x_i(t) - x_i(t-1) \right] \right\} \geq 0 \\
+    \forall i \in S, t \in T_f - MD_i + 2 \hdots T_f
+\end{multline}
+ 
+%\end{center}
 
-%Available at https://github.com/WittmannF/NILM_LP
+let $T_0 = T_0 +m$ + 1
+ }
+\caption{Proposed NILM using a window-based algorithm.}
+\end{algorithm}

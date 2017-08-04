@@ -1,18 +1,65 @@
 \chapter{Fundamentals}
-[MOTIVACAO] 
-- Before introducing the matemathical model, some of the core concepts are going to be presented in this chapter. 
-- This chapter presents the basis concepts that will fundament the next chapters
-- This chapter presents the core concepts what are necessary for understanding the rest of the work
-- This chapter presents the background work necessary for proceding with the next few chapters. 
+
+This chapter presents the core concepts what are necessary that will support the next chapters. First, Hart's classical NILM technique is going to be described. Next, an introduction to mathematical optimization is presented. Finally, the NILM technique formulated as an optimization problem is presented. 
+
+\section{NILM as a Pattern Recognition Problem}
+This section is going to describe Hart's pattern recognition method which will be used to compare with the proposed method in the results section. The technique is fundamentally based on event detection and classification of pair of events with opposite direction. The major attention in this section to the characteristics of the algorithm. For further details, the reader may refer to \cite{hart} and \cite{hart85}. 
+
+Fundamentally, Hart's method is based on the detection of steps in power measurements, as illustrated in the Figure \ref{illustration_ch2}. For each event, it is measured the available appliance signatures from the meter such as active power, reactive power, harmonics and duration. Those events might change depending on the information available in the smart meter. For example, smart meters with low sampling rate (which is the most common case), allows for limited signature information such as only the active power. The core of Hart's algorithm is illustrated in the Figure \ref{algorithm_ch2}. More details on each item of the figure are going to be discussed in the following items:
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=1\columnwidth ]{illustration_ch2.pdf}
+    \caption{Illustration of edges that could be detected from a typical power measurement.}
+    \label{illustration_ch2}
+\end{figure}
 
 
-\iffalse
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.5\columnwidth]{algorithm_ch2.pdf}
+    \caption{Core algorithm of Hart's algorithm \cite{hart}.}
+    \label{algorithm_ch2}
+\end{figure}
+
+\begin{itemize} 
+    \item \textbf{Measure Power and Voltage:} Power and RMS voltage are averaged over intevals of one second. Voltage, real power and reactive power are digitally acquired based on a high sampling rate. 
+    
+    \item \textbf{Normalize Power:} The Equation \eqref{normalize} is used in order to compute the normalized total load power. The normalization translates into what the power would be if the utility provided a steady voltage and the load obeyed a linear model. 
+    
+    \begin{equation} \label{normalize}
+         P_{norm}(t) = \frac{127}{V(t)}^2 P(t) 
+    \end{equation}
+    
+    
+    \item \textbf{Edge Detection:} The sizes of steplike changes and their times of occurrence (time stamp) are obtained by an edge detection algorithm. Hart defines two types of periods: steady period and periods of change. Steady period are defined as periods where the input does not change more than a threshold during a certain number of samples. Any other period that does not meet this criteria is defined as periods of change. The step size is calculated as the average of a steady period. The time stamp is provided by the time of the first sample in a changing period. The edge detection process is illustrated in the Figure \ref{edge_dect_ch2}.
+    
+        
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=1\columnwidth]{edge_dect_ch2.pdf}
+    \caption{Illustration of the edge detection process of Hart's method \cite{hart}.}
+    \label{edge_dect_ch2}
+\end{figure}
+    
+    
+    
+    \item \textbf{Cluster Analysis:} The previously identified events are grouped into clusters. Each clusters is a set of events which are all close to each other. The Figure \ref{cluster_ch2} illustrates some clusters that might appear after the edge detection process. This task might get very difficult if many clusters of different appliances are intersecting each other. 
+    
+    \item \textbf{Appliance Models:} Models of appliances with simple ON/OFF states or multiple states are constructed. For ON/OFF appliances, the model is constructed by taking the centroid of symmetrical positive and negative clusters. In other words, pair of similar clusters representing positive and negative edges. The pair of centroids is matched involving a tolerance criteria. Models of appliances with multiple states are constructed by combining sequences of signatures. 
+
+    \item \textbf{Track Behavior:} The available appliance models are tracked using a decoding approach. The approach is analog to a communication model where each appliance is considered a transmitter broadcasting their electrical measurements as information. The house wiring is the communication channel and finally the algorithm is the receiver. The decoding algorithm is based on a generalization of the Viterbi algorithm.\footnote{Optimal decoding technique based on dynamic programming} Giving a message source, the algorithm corrects errors that may occur in the channel such as insertions, deletions and merges. The details of the algorithm are presented in \cite{hart93}.  
+    
+    \item \textbf{Tabulate Statistics:} Energy statistics can be computed from the power levels and time stamp obtained in the previous step. Some example of useful statistics are the operating power, total energy and energy broken down by hour/day/week. The energy statistic is also useful for a conflict resolution step to check if there are more appliances activated than it should. It could be checked if the energy inferred from all appliances is higher than the total house power. This situation is likely to happen in cases where both OFF and immediately following ON event of an appliance are missed.   
+    
+    \item \textbf{Appliance Naming:} Finally, a name should be assigned to each appliance model detected from the collected data. Statistics based on the typical duration of an appliance can be useful for this task. Another useful information is the operating power level (127V vs 220V) of the device which is useful to check if the appliance is a single phase or two phase element. 
+
+\end{itemize}
+
+
 
 \section{Mathematical Optimization}
-
-
-
-
 Mathematical optimization (also known as mathematical programming) is the process of minimization or maximization of an objective function of many variables, subject to constraints on the variables \cite{ampl}. The equation \eqref{opt_example} shows an example of optimization problem.
 
 \begin{equation} \label{opt_example}
@@ -24,6 +71,13 @@ subject to
 \begin{equation}
     \sum_{i\ = 1}^{n} w_i\ x_i \ \leq \ W \quad \forall \ x \in \{0,1\}
 \end{equation}
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=1\columnwidth]{cluster_ch2.pdf}
+    \caption{Hypothetical scenario of a clustering space.}
+    \label{cluster_ch2}
+\end{figure}
 
 Equation \eqref{opt_example} is a classic \textit{integer programming} problem also known as the knapsack problem. Given a set of $i = 1..n$ different items, where each item has a specific value $v_i$, the main goal is to maximize the overall profit given that each item has a weight $w_i$ and it is not possible to overcome the maximum limit $W$. The variable of this problem $x_i$ is an integer binary variable, hence, the name of this type of problem. Some of the major subfields for mathematical optimization are \cite{cplex, ampl}:
 \begin{itemize}
@@ -43,7 +97,7 @@ Boyle in cite{boyle} demonstrates how to linearize the \textit{Chebyshev approxi
     \min_{x} \max_{i=1,...,k} \quad \left| a_i^T\ x - b_i \right |
 \end{equation}
 
-\fi
+
 \section{NILM as a Combinatorial Optimization Problem}
 
 The energy disaggregation problem can be formulated assuming that the measured variable (current or power) in the input of the house is given by $P(t)$, for each time $t$. As shown in \eqref{Ps}, the objective of the NILM would be to decode $P(t)$ in power states $P_i(t)$, $\forall \ i \in \{1,...,n\}$. Where $n$ is the total number of power states for all appliances. 
@@ -71,7 +125,9 @@ Equation \eqref{classic} aims at finding the combination of power states $P_i$ t
         \end{bmatrix} \ \right|
 \end{equation}
 
-While the author x mentions that this approach is not viable due to the explosion of features, i.e., high computational time, the author considered a scenario in which the input table contains over x inputs. As described later, this work does not requires a big number of features and it runs in a fair computational time. In addition, there are constraints for atenuating the computational influence. 
+This formulation is going to be the basis of this dissertation and will be expanded and improved in the Chapter 3. 
+
+%While the author x mentions that this approach is not viable due to the explosion of features, i.e., high computational time, the author considered a scenario in which the input table contains over x inputs. As described later, this work does not requires a big number of features and it runs in a fair computational time. In addition, there are constraints for atenuating the computational influence. 
 
 \iffalse
 Responder à estas críticas:
@@ -126,13 +182,5 @@ are not feasible for anything other than toy scenarios.
 
 \fi
 
-\section{NILM as a Pattern Recognition Problem}
-One of the most popular approaches for solving the NILM problem is pattern recognition. The technique is fundamentally based on finding pairs of edges in the signal with opposite directions. The figure x describes the first algorithm, proposed by Hart in x. 
-
-\section{Other Approaches}
-- HMM
-
-
-Most of the successive works were focused on alternative edge detection strategies and increasing the number of features to be used besides the active and reactive power from the original work. Those alternative features includes harmonics, time of operation, hour of activation, etc. There are also features extracted from high frequency data such as the senoidal signal. However, it is worth noting that many of those features are not available in smart meters. Hence, NILM strategies should also be suitable to cases with limited data. 
-
 \section{Summary}
+This chapter has presented the background work to substantiate the next chapters. First, Hart's algorithm framework was described 
