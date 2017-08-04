@@ -1,17 +1,15 @@
 
 \chapter{Conclusion}
-In this paper, a NILM method based MILP optimization was proposed. The classic CO model was expanded in this work. As main contribution, a new set of integer linear constraints to efficiently model the behaviour of appliances' load signature was presented. Also, a window-based algorithm is proposed in order to enhance the computational complexity. The proposed algorithm surpassing the test cases for the identification of appliances. As main advantages of the algorithm, it does not require data in high resolution, hence low-cost smart meters are sufficient to deploy it. 
+In this dissertation, a NILM method based on MILP optimization was proposed. The classic CO model was expanded for increasing the accuracy and performance. As main contribution, a new set of integer linear constraints to efficiently model the behaviour of appliances' load signature was presented. Also, a window-based algorithm is proposed in order to enhance the computational complexity. The proposed algorithm surpassing the test cases for the identification of appliances. As main advantage, the algorithm does not require data in high resolution, hence low-cost smart meters are sufficient to deploy it. Results were accomplished with a one-minute reading resolution. The usage of windows proved to be effective in limiting the complexity growth. In addition, the inclusion of other features besides the active power is optional and help to improve the accuracy. Finally, the table of parameters is suitable to an unsupervised approach. 
 
-Results were accomplished with a one-minute reading resolution. The usage of windows proved to be effective in limiting the complexity growth. In addition, the inclusion of other features besides the active power is optional and help to improve the accuracy. Finally, the table of parameters is suitable to an unsupervised approach. 
+\iffalse
 
-\section{Future work}
-The following list shows points that might be considered for future work
+\section{Future directions}
+The following list shows points that might be considered for future work in this area
 
 \begin{itemize}
 \item Communication of time between windows: What could help is to implement an intermediary window. For example, if the window size is 10, we could make the solver run every 5 measurements ahead. 
-\item How to deal in the presence of unknown loads
-\item Use Q data too (if available)
-\item Implement probabilistic functions: for example, penalization for turning on on awkward times (like a wash mashine at 3 AM). 
+\item Implement probabilistic functions: for example, penalization for turning on on unlikely times (like a washing machine at 3 AM). 
 \item Implement the concept of occupied and non-occupied type of loads: Associate a low probability of human operated appliances during the dawn. 
-\item consider a preprocessing to be fed to the solver from high frequency data
 \end{itemize}
+\fi

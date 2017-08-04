@@ -5,7 +5,7 @@ This chapter presents the core concepts what are necessary that will support the
 \section{NILM as a Pattern Recognition Problem}
 This section is going to describe Hart's pattern recognition method which will be used to compare with the proposed method in the results section. The technique is fundamentally based on event detection and classification of pair of events with opposite direction. The major attention in this section to the characteristics of the algorithm. For further details, the reader may refer to \cite{hart} and \cite{hart85}. 
 
-Fundamentally, Hart's method is based on the detection of steps in power measurements, as illustrated in the Figure \ref{illustration_ch2}. For each event, it is measured the available appliance signatures from the meter such as active power, reactive power, harmonics and duration. Those events might change depending on the information available in the smart meter. For example, smart meters with low sampling rate (which is the most common case), allows for limited signature information such as only the active power. The core of Hart's algorithm is illustrated in the Figure \ref{algorithm_ch2}. More details on each item of the figure are going to be discussed in the following items:
+Fundamentally, Hart's method is based on the detection of steps in power measurements, as illustrated in the Figure \ref{illustration_ch2}. The algorithm is suitable for both a supervised or unsupervised approach. For each event, it is measured the available appliance signatures from the meter such as active power, reactive power, harmonics and duration. Those events might change depending on the information available in the smart meter. For example, smart meters with low sampling rate (which is the most common case), allows for limited signature information such as only the active power. The core of Hart's algorithm is illustrated in the Figure \ref{algorithm_ch2}. More details on each item of the figure are going to be discussed in the following items:
 
 \begin{figure}[htb]
     \centering
@@ -19,7 +19,7 @@ Fundamentally, Hart's method is based on the detection of steps in power measure
 \begin{figure}[htb]
     \centering
     \includegraphics[width=0.5\columnwidth]{algorithm_ch2.pdf}
-    \caption{Core algorithm of Hart's algorithm \cite{hart}.}
+    \caption{Core steps of Hart's algorithm \cite{hart}.}
     \label{algorithm_ch2}
 \end{figure}
 
@@ -88,14 +88,12 @@ Equation \eqref{opt_example} is a classic \textit{integer programming} problem a
     \item \textbf{Mixed-Integer Linear Programming:} Integer programming problem which contains a linear objective function (without quadratic terms).
 \end{itemize}
 
-\cite{cplex}. 
+%\subsection{Linearization of an Absolute Objective Function}
+%Boyle in cite{boyle} demonstrates how to linearize the \textit{Chebyshev approximation problem} defined as:
 
-\subsection{Linearization of an Absolute Objective Function}
-Boyle in cite{boyle} demonstrates how to linearize the \textit{Chebyshev approximation problem} defined as:
-
-\begin{equation} \label{chebyshev}
-    \min_{x} \max_{i=1,...,k} \quad \left| a_i^T\ x - b_i \right |
-\end{equation}
+%\begin{equation} \label{chebyshev}
+%    \min_{x} \max_{i=1,...,k} \quad \left| a_i^T\ x - b_i \right |
+%\end{equation}
 
 
 \section{NILM as a Combinatorial Optimization Problem}
@@ -183,4 +181,4 @@ are not feasible for anything other than toy scenarios.
 \fi
 
 \section{Summary}
-This chapter has presented the background work to substantiate the next chapters. First, Hart's algorithm framework was described 
+This chapter has presented the background work to substantiate the next chapters. First, Hart's algorithm framework was described. His algorithm can be summarized in 8 steps for the unsupervised approach or 5 steps in the supervised approach. Next, the very basics of mathematical optimization is presented for contextualization. Finally, the CO formulation is presented, which is the core formulation of this work. The next chapter is going to explore some further possibilities of this formulation. 

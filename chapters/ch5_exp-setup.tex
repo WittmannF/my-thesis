@@ -179,7 +179,7 @@ TVE & 51.2                  & 94.2                  & 10                    & 29
 
 %\section{Unsupervised Tests}
 
-\section{Analysis of Results}
+\section{Summary and Analysis of Results}
 This chapter presented the experiments for both the supervised and unsupervised setting. A public dataset was considered for the supervised setting while a local private dataset for the unsupervised one. As discussed in \cite{zeifman_analysis}, a good NILM algorithm should address the following six requirements: use typical meter features, minimal accuracy, no training, real-time capability, scalability, and flexibility.
 
 The presented NILM algorithm accomplishes with most of the former requirements, since: uses only low frequency features; accomplishes the minimum 80\% requirement (considering the complement of ETE's average); the parameters in the input table make it suitable for a no training (unsupervised) setting; the results could be shown in real-time to the user at every $m$ measurements; scalability will depend on the way in which the input table is constructed and how it is updated; finally multiple appliances types are handled (multi-state, ON/OFF, constant) thanks to the parameters $MD_i$ and $prev_i$. 
